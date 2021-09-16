@@ -122,7 +122,7 @@ namespace ntbs_service_unit_tests.Jobs
                 // Assert
                 Assert.Equal("Stored procedure did not execute successfully as result has messages, check the logs",
                     exception.Message);
-                AssertRepositoryMethodsCalled(migrationCalled: false);
+                AssertRepositoryMethodsCalled();
 
                 var logEvents = TestCorrelator.GetLogEventsFromCurrentContext().ToList();
 
@@ -136,7 +136,6 @@ namespace ntbs_service_unit_tests.Jobs
                                 && logEvent.RenderMessage() == "Error occured during reporting data refresh job");
                 AssertDoesNotContainInfoMessages(logEvents, new[]
                 {
-                    "Starting migration uspGenerate",
                     "Finishing reporting data refresh job"
                 });
             }
@@ -161,21 +160,20 @@ namespace ntbs_service_unit_tests.Jobs
                 // Assert
                 Assert.Equal("Stored procedure did not execute successfully as result has messages, check the logs",
                     exception.Message);
-                AssertRepositoryMethodsCalled();
+                AssertRepositoryMethodsCalled(reportingCalled: false);
 
                 var logEvents = TestCorrelator.GetLogEventsFromCurrentContext().ToList();
 
                 AssertContainsInfoMessages(logEvents, new[]
                 {
                     "Starting specimen-matching uspGenerate",
-                    "Starting reporting uspGenerate",
                     "Starting migration uspGenerate",
                     $"Result: {serialisedResult}"
                 });
                 Assert.Contains(logEvents,
                     logEvent => logEvent.Level == LogEventLevel.Error
                                 && logEvent.RenderMessage() == "Error occured during reporting data refresh job");
-                AssertDoesNotContainInfoMessages(logEvents, new[] { "Finishing reporting data refresh job" });
+                AssertDoesNotContainInfoMessages(logEvents, new[] { "Starting reporting uspGenerate", "Finishing reporting data refresh job" });
             }
         }
 
@@ -238,13 +236,13 @@ namespace ntbs_service_unit_tests.Jobs
 
                 // Assert
                 Assert.Equal(expectedException, actualException);
-                AssertRepositoryMethodsCalled(migrationCalled: false);
+                AssertRepositoryMethodsCalled();
 
                 var logEvents = TestCorrelator.GetLogEventsFromCurrentContext().ToList();
 
                 AssertContainsInfoMessages(logEvents, new[]
                 {
-                    "Starting specimen-matching uspGenerate", "Starting reporting uspGenerate"
+                    "Starting specimen-matching uspGenerate", "Starting migration uspGenerate", "Starting reporting uspGenerate"
                 });
                 Assert.Contains(logEvents,
                     logEvent => logEvent.Level == LogEventLevel.Error
@@ -252,7 +250,7 @@ namespace ntbs_service_unit_tests.Jobs
                                 && logEvent.Exception == expectedException);
                 AssertDoesNotContainInfoMessages(logEvents, new[]
                 {
-                    "Starting migration uspGenerate", "Finishing reporting data refresh job"
+                    "Finishing reporting data refresh job"
                 });
             }
         }
@@ -278,21 +276,20 @@ namespace ntbs_service_unit_tests.Jobs
 
                 // Assert
                 Assert.Equal(expectedException, actualException);
-                AssertRepositoryMethodsCalled();
+                AssertRepositoryMethodsCalled(reportingCalled: false);
 
                 var logEvents = TestCorrelator.GetLogEventsFromCurrentContext().ToList();
 
                 AssertContainsInfoMessages(logEvents, new[]
                 {
                     "Starting specimen-matching uspGenerate",
-                    "Starting reporting uspGenerate",
                     "Starting migration uspGenerate"
                 });
                 Assert.Contains(logEvents,
                     logEvent => logEvent.Level == LogEventLevel.Error
                                 && logEvent.RenderMessage() == "Error occured during reporting data refresh job"
                                 && logEvent.Exception == expectedException);
-                AssertDoesNotContainInfoMessages(logEvents, new[] { "Finishing reporting data refresh job" });
+                AssertDoesNotContainInfoMessages(logEvents, new[] { "Starting reporting uspGenerate", "Finishing reporting data refresh job" });
             }
         }
 
