@@ -100,6 +100,9 @@ namespace ntbs_service.Services
                 case DataQualityDotVotAlert _:
                     notificationQualifiesCheck = DataQualityDotVotAlert.NotificationQualifies;
                     break;
+                case DataQualityChildECMLevel _:
+                    notificationQualifiesCheck = DataQualityChildECMLevel.NotificationQualifies;
+                    break;
                 default: throw new ArgumentException("Unexpected alert type passed for automatic closing");
             }
 

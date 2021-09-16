@@ -49,6 +49,10 @@ namespace ntbs_service.DataAccess
         // Potential Duplicates
         Task<IList<NotificationAndDuplicateIds>>
             GetNotificationIdsEligibleForDqPotentialDuplicateAlertsAsync();
+
+        // Child ECM Levels
+        Task<IList<Notification>> GetNotificationsEligibleForDqChildECMLevelAlertsAsync(int count, int offset);
+        Task<int> GetNotificationsEligibleForDqChildECMLevelAlertsCountAsync();
     }
 
     public class DataQualityRepository : IDataQualityRepository
@@ -174,6 +178,19 @@ namespace ntbs_service.DataAccess
         public Task<int> GetNotificationsEligibleForDqTreatmentOutcome36AlertsCountAsync() =>
             GetNotificationsEligibleForAlertsCount(DataQualityTreatmentOutcome36
                 .NotificationInQualifyingRangeExpression);
+
+        #endregion
+
+        #region Child ECM Level
+
+        public Task<IList<Notification>> GetNotificationsEligibleForDqChildECMLevelAlertsAsync(int count, int offset) =>
+            GetMultipleNotificationsEligibleForAlertsWithOffset<DataQualityChildECMLevel>(
+                DataQualityChildECMLevel.NotificationQualifiesExpression,
+                count,
+                offset);
+
+        public Task<int> GetNotificationsEligibleForDqChildECMLevelAlertsCountAsync() =>
+            GetNotificationsEligibleForAlertsCount(DataQualityChildECMLevel.NotificationQualifiesExpression);
 
         #endregion
 

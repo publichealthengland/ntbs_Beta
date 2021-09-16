@@ -32,6 +32,8 @@ namespace ntbs_service.Models.Enums
         DataQualityDotVotAlert,
         [Display(Name = "Potential duplicate notification")]
         DataQualityPotientialDuplicate,
+        [Display(Name = "ECM value not recorded for child")]
+        DataQualityChildECMLevel,
         [Display(Name = "Test Alert")]
         Test
     }

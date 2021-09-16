@@ -4837,6 +4837,13 @@ namespace ntbs_service.Migrations
                     b.HasDiscriminator().HasValue("DataQualityBirthCountry");
                 });
 
+            modelBuilder.Entity("ntbs_service.Models.Entities.Alerts.DataQualityChildECMLevel", b =>
+                {
+                    b.HasBaseType("ntbs_service.Models.Entities.Alerts.Alert");
+
+                    b.HasDiscriminator().HasValue("DataQualityChildECMLevel");
+                });
+
             modelBuilder.Entity("ntbs_service.Models.Entities.Alerts.DataQualityClinicalDatesAlert", b =>
                 {
                     b.HasBaseType("ntbs_service.Models.Entities.Alerts.Alert");

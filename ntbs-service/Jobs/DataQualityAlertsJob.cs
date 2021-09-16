@@ -29,7 +29,7 @@ namespace ntbs_service.Jobs
         }
 
         private delegate Task<int> GetNotificationsEligibleForDqAlertsCount();
-        private delegate Task<IList<Notification>> GetMultipleNotificationsEligibleForDataQualityDraftAlerts(
+        private delegate Task<IList<Notification>> GetMultipleNotificationsEligibleForDataQualityAlerts(
             int countPerBatch,
             int offset);
 
@@ -68,9 +68,14 @@ namespace ntbs_service.Jobs
             _dataQualityRepository.GetNotificationsEligibleForDqTreatmentOutcome36AlertsAsync
         );
 
+        private async Task CreateChildECMLevelAlertsInBulkAsync() => await CreateAlertsInBulkAsync<DataQualityChildECMLevel>(
+            _dataQualityRepository.GetNotificationsEligibleForDqChildECMLevelAlertsCountAsync,
+            _dataQualityRepository.GetNotificationsEligibleForDqChildECMLevelAlertsAsync
+        );
+
         private async Task CreateAlertsInBulkAsync<T>(
             GetNotificationsEligibleForDqAlertsCount getCount,
-            GetMultipleNotificationsEligibleForDataQualityDraftAlerts getNotifications) where T : Alert
+            GetMultipleNotificationsEligibleForDataQualityAlerts getNotifications) where T : Alert
         {
             var notificationsForAlertsCount = await getCount();
             var offset = 0;
@@ -107,6 +112,7 @@ namespace ntbs_service.Jobs
             await CreateTreatmentOutcome12MonthAlertsInBulkAsync();
             await CreateTreatmentOutcome24MonthAlertsInBulkAsync();
             await CreateTreatmentOutcome36MonthAlertsInBulkAsync();
+            await CreateChildECMLevelAlertsInBulkAsync();
 
             // When we check for treatment outcome alerts above, quite a lot of notifications are being brought
             // into the context. (This is because the eligibility check cannot be entirely translated into SQL so
