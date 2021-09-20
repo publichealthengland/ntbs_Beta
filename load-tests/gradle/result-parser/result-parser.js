@@ -31,28 +31,34 @@ console.log(`Performance metrics:
 
 const errors = [];
 
-if (globalErrorRate > 0.001) {
-	errors.push(`The error rate ${globalErrorRate} is greater than the threshold 0.001`);
+const globalErrorThreshold = 0.001;
+if (globalErrorRate > globalErrorThreshold) {
+	errors.push(`The error rate ${globalErrorRate} is greater than the threshold ${globalErrorThreshold}ms`);
 }
 
-if (globalMean > 600) {
-	errors.push(`The mean response time ${globalMean}ms is greater than the threshold 600ms`);
+const globalMeanThreshold = 600;
+if (globalMean > globalMeanThreshold) {
+	errors.push(`The mean response time (global) ${globalMean}ms is greater than the threshold ${globalMeanThreshold}ms`);
 }
 
-if (global95thPecentile > 2000) {
-	errors.push(`The error rate ${global95thPecentile}ms is greater than the threshold 2000ms`);
+const global95thThreshold = 2000;
+if (global95thPecentile > global95thThreshold) {
+	errors.push(`The 95th percentile response time (global) ${global95thPecentile}ms is greater than the threshold ${global95thThreshold}ms`);
 }
 
+const dashboardThreshold = 1500;
 if (dashboardMean > 1500) {
-	errors.push(`The error rate ${dashboardMean}ms is greater than the threshold 1500ms`);
+	errors.push(`The mean response time (dashboard) ${dashboardMean}ms is greater than the threshold ${dashboardThreshold}ms`);
 }
 
+const idSearchThreshold = 1500;
 if (idSearchMean > 1500) {
-	errors.push(`The error rate ${idSearchMean}ms is greater than the threshold 1500ms`);
+	errors.push(`The mean response time (search by ID) ${idSearchMean}ms is greater than the threshold ${idSearchThreshold}ms`);
 }
 
+const nameSearchThreshold = 1500;
 if (nameSearchMean > 1500) {
-	errors.push(`The error rate ${nameSearchMean}ms is greater than the threshold 1500ms`);
+	errors.push(`The mean response time (search by name) ${nameSearchMean}ms is greater than the threshold ${nameSearchThreshold}ms`);
 }
 
 if (errors.length > 0) {
