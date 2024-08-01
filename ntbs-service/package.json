@@ -25,7 +25,7 @@
     "es6-promise": "4.2.8",
     "file-loader": "6.2.0",
     "formdata-polyfill": "4.0.10",
-    "govuk-frontend": "4.0.1",
+    "govuk-frontend": "5.4.1",
     "nhsuk-frontend": "6.1.0",
     "qs": "6.10.3",
     "sass": "1.49.9",
