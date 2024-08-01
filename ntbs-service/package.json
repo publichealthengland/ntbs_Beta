@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "7.17.5",
+    "@babel/core": "7.25.2",
     "@babel/preset-env": "^7.22.20",
     "accessible-autocomplete": "2.0.4",
     "axios": "0.26.0",
